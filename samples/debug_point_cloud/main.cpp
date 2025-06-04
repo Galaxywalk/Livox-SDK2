@@ -129,8 +129,8 @@ int main(int argc, const char *argv[]) {
     LivoxLidarSdkUninit();
     return -1;
   }
-  // SetLivoxLidarPointCloudCallBack(PointCloudCallback, nullptr);
-  // SetLivoxLidarImuDataCallback(ImuDataCallback, nullptr);
+  SetLivoxLidarPointCloudCallBack(PointCloudCallback, nullptr);
+  SetLivoxLidarImuDataCallback(ImuDataCallback, nullptr);
   SetLivoxLidarInfoChangeCallback(LidarInfoChangeCallback, nullptr);
 
   // capture Ctrl + C signal.
