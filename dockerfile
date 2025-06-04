@@ -7,7 +7,7 @@ ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
 # Install Python 3.8 and essentials
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update || true && apt-get install -y --no-install-recommends \
     software-properties-common \
     sudo \
     lsb-release \
@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3.8-distutils \
     python3-pip \
     git \
+    vim \
+    curl \
+    pybind11-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Set Python 3.8 as default
