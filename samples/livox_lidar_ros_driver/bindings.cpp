@@ -64,7 +64,7 @@ Python signature:  cb(handle:int, dev_type:int,
                       pkt_ptr:int, dot_num:int, data_type:int)
 `pkt_ptr` is just the raw C pointer cast to int.  If you need the actual
 bytes, use ctypes to cast it to a structure of your choice.
-)doc");
+)doc")
         .def("register_imu_callback",
              &PyDriver::register_imu_callback,
              py::arg("callable"),

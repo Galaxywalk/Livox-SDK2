@@ -1,6 +1,6 @@
 import ctypes, numpy as np, time, sys, signal, _livox_core as lv
 
-class point_cloud(ctypes.Structure):
+class PointCloud(ctypes.Structure):
     _pack_ = 1                     # no implicit padding
     _fields_ = [("x",  ctypes.c_int32),   # mm, little-endian
                 ("y",  ctypes.c_int32),
@@ -8,7 +8,7 @@ class point_cloud(ctypes.Structure):
                 ("ref",ctypes.c_uint8),
                 ("tag",ctypes.c_uint8)]  # 2-byte reserved
 
-class imu(ctypes.Structure):
+class IMU(ctypes.Structure):
     _pack_ = 1
     _fields_ = [("gyro_x", ctypes.c_float),
                 ("gyro_y", ctypes.c_float),
@@ -22,7 +22,7 @@ def pointcloud_cb(handle, dev_type, ptr, n, dtype):
     if dtype != 1 or n == 0:
         return # dev_type = 1: CartesianCoordinateHighData
 
-    buf = (point_cloud * n).from_address(ptr)
+    buf = (PointCloud * n).from_address(ptr)
 
     print(f"\nframe from {handle:#x}  ({n} pts)")
     for i in range(n):
@@ -31,10 +31,12 @@ def pointcloud_cb(handle, dev_type, ptr, n, dtype):
               f"ref={p.ref} tag={p.tag}")
 
 def imu_cb(handle, dev_type, ptr, n, dtype):
-    if dtype != 0 or n == 0:
+    if dtype != 0:
         return  # dtype==0: imu
+    if not ptr or n == 0:
+        return
 
-    buf = (imu * n).from_address(ptr)
+    buf = (IMU * n).from_address(ptr)
     print(f"\nIMU frame from {handle:#x}  ({n} samples)")
     for i in range(n):
         imu = buf[i]
